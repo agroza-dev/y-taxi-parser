@@ -45,11 +45,11 @@ class DriverManager:
         try:
             result = self.driver.find_element(_by, path)
         except NoSuchElementException:
-            self.log.error(f'{path} - not found')
+            self.log.warning(f'{path} - not found')
             result = None
         return result
 
-    def get_element_text(self, path, _by=By.XPATH):
+    def get_element_text(self, path: str, _by=By.XPATH):
         result = False
         try:
             element = self.get_element(path)
@@ -60,7 +60,7 @@ class DriverManager:
         finally:
             return result
 
-    def change_location(self, url, sleap_time=0):
+    def change_location(self, url: str, sleap_time: int = 0):
         self.driver.get(url)
         if sleap_time > 0:
             time.sleep(sleap_time)
@@ -73,7 +73,7 @@ class DriverManager:
             if dom_element:
                 if pre_clear:
                     dom_element.send_keys(Keys.CONTROL + 'a')
-                    time.sleep(1)
+                    time.sleep(self.conf.Wait.s_1)
                 dom_element.send_keys(keys)
                 result = True
         except Exception as e:

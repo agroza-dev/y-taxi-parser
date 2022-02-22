@@ -29,6 +29,18 @@ class Config:
 
     confirm_code_file_path = f'{_ROOT_PATH}/var/cookies/sms_code.txt'
 
+    class Wait:
+        s_1 = 1
+        s_3 = 3
+        s_5 = 5
+        s_7 = 7
+        s_10 = 10
+        s_15 = 15
+        s_20 = 20
+        s_25 = 25
+        s_45 = 45
+        s_55 = 55
+
     class Log:
         path = f'{_ROOT_PATH}/var/logs/{{time:DD-MM-YY}}_data.log'
         level = 'DEBUG'

@@ -25,7 +25,7 @@ def main():
 
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(conf.Wait.s_1)
 
 
 if __name__ == '__main__':

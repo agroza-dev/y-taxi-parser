@@ -37,10 +37,10 @@ class Parser:
             prices_sum = 0
             for address in self.conf.Parser.addresses:
                 self.fill_address_a(address, self.conf)
-                time.sleep(2)
+                time.sleep(self.conf.Wait.s_3)
                 self.fill_address_b(address, self.conf)
 
-                time.sleep(5)
+                time.sleep(self.conf.Wait.s_5)
                 self.log.info(f'Starting parse first tariff block')
                 raw_price = None
                 for key, path in enumerate(self.conf.Navigate.first_tariff_price_paths):
@@ -85,9 +85,8 @@ class Parser:
             if self.log:
                 self.log.critical(str(e))
         finally:
-            time.sleep(3)
-            if self.driver:
-                self.driver.destroy()
+            time.sleep(self.conf.Wait.s_5)
+            self.driver.destroy()
 
     def fill_address_a(self, address: AddressItem, conf: Config):
         self.log.info(f'Start sending keys for address: "a" ({address.a})')
@@ -103,15 +102,15 @@ class Parser:
             self.driver.make_screenshot(f'input_address_error')
             raise Exception(f'Can`t fill address.')
         self.log.info(f'Address filled')
-        time.sleep(3)
+        time.sleep(self.conf.Wait.s_5)
         self.log.info('Waiting before click PAGE_DOWN key')
         self.driver.send_keys(path_to_element, Keys.ARROW_DOWN, By.XPATH, False)
         self.log.info('PAGE_DOWN clicked')
         self.log.info('Waiting before click ENTER key')
-        time.sleep(1)
+        time.sleep(self.conf.Wait.s_3)
         self.driver.send_keys(path_to_element, Keys.ENTER, By.XPATH, False)
         self.log.info('ENTER clicked')
-        time.sleep(3)
+        time.sleep(self.conf.Wait.s_5)
 
     def get_numbers_from_string(self, raw_string: str) -> int:
         result = False
