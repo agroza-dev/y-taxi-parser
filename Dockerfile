@@ -1,9 +1,10 @@
 FROM ubuntu:focal
 
+ARG DEBIAN_FRONTEND=noninteractive
 RUN echo "===> Installing system dependencies..." && \
     BUILD_DEPS="curl unzip" && \
     apt-get update && apt-get install --no-install-recommends -y \
-    python3 python3-pip wget \
+    python3 python3-pip python3-venv build-essential libssl-dev libffi-dev wget \
     fonts-liberation libappindicator3-1 libasound2 libatk-bridge2.0-0 \
     libnspr4 libnss3 lsb-release xdg-utils libxss1 libdbus-glib-1-2 libgbm1 \
     $BUILD_DEPS \
@@ -30,16 +31,11 @@ RUN echo "===> Installing system dependencies..." && \
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV TZ Europe/Moscow
-ENV PYTHONUNBUFFERED=1
+
 
 ENV APP_HOME /opt/app
-WORKDIR /$APP_HOME
-
-ADD requirements.txt .
-
-RUN pip install -r requirements.txt
-
-COPY . $APP_HOME/
-
+WORKDIR $APP_HOME
+ADD . .
+RUN python3 -m venv $APP_HOME/env && . $APP_HOME/env/bin/activate && python3 -m pip install -r requirements.txt
 
 ENTRYPOINT ["python3", "/opt/app/main.py"]

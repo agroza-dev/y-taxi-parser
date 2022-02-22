@@ -3,9 +3,10 @@ services:
   parser:
     build: .
     image: parser:latest
-    restart: always
     container_name: taxi-parser
+    privileged: true
     volumes:
       - type: bind
         source: ./var
         target: /opt/app/var
+    shm_size: '1gb'
