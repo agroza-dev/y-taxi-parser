@@ -1,0 +1,10 @@
+.git
+.idea
+venv
+setup/config.py.example
+Dockerfile
+README.md
+.gitignore
+var/cookies/.gitkeep
+var/logs/.gitkeep
+var/screenshots/.gitkeep

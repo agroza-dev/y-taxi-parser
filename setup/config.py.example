@@ -1,0 +1,104 @@
+from pathlib import Path
+from dataclasses import dataclass
+
+_ROOT_PATH = Path(__file__).resolve().parent.parent
+
+
+@dataclass()
+class AddressItem:
+    a: str
+    b: str
+
+
+class Config:
+    debug_mode = False
+    """
+    When is enabled, webdriver will start maximized. 
+    
+    Also, parser can be started on windows, because pyvirtualdisplay will not start
+    """
+
+    running_schedule_in_minutes = 1
+    """
+    Parser launch frequency 
+    """
+
+    cookies_path = f'{_ROOT_PATH}/var/cookies/cookies.pkl'
+
+    parser_cookies_path = f'{_ROOT_PATH}/var/cookies/parser_cookies.json'
+
+    confirm_code_file_path = f'{_ROOT_PATH}/var/cookies/sms_code.txt'
+
+    class Log:
+        path = f'{_ROOT_PATH}/var/logs/{{time:DD-MM-YY}}_data.log'
+        level = 'DEBUG'
+        format = '{time:HH:mm:ss} | {level} | {message}: {line}'
+        tg_format = '{time:HH:mm:ss} | {level} | {message}'
+        retention = '10 day'
+        encoding = 'utf8'
+
+    class Yandex:
+        """Yandex account credentials"""
+        email = ''
+        password = ''
+
+    class Tg:
+        bot_token = ''
+        """Bot token for sending messages"""
+
+        alarm_chat_id = ''
+        """Chat for error logs"""
+
+        recipient_ids: list[str] = []
+        """Chats for messaging info messages"""
+
+    class Parser:
+        max_threshold = 130
+
+        addresses: list[AddressItem] = [
+            AddressItem('Moscow, Kutuzovskii prospekt, 30', 'Moscow, Kutuzovskii prospekt, 11'),
+        ]
+
+        msg = {
+            'error': 'Error! Got $count_errors error from $total_addresses_count addresses',
+            'start_high_demand': 'High demand detected. Current value: $price',
+            'end_high_demand': 'Demand returned to normal. Current value: $price'
+        }
+
+    class Screenshots:
+        enabled = True
+        path = f'{_ROOT_PATH}/var/screenshots/'
+
+    class Display:
+        visible = False
+        width = 1920
+        height = 976
+
+    class Driver:
+        start_latitude = 55.117092
+        start_longitude = 36.597041
+
+    class Navigate:
+        working_page = "https://taxi.yandex.ru/"
+        auth_page = "https://passport.yandex.ru/auth"
+
+        unauthorized_flag = "/html/body/div[1]/div[1]/div[1]/header/div[3]/a/span/span[1]/span"
+        authorized_flag = '//*[@id="header"]/div[3]/a/div/div[2]/div'
+        auth_form_login_input = '//*[@id="passp-field-login"]'
+        auth_form_password_input = '//*[@id="passp-field-passwd"]'
+        phone_confirm_button = '//*[@id="root"]/div/div[2]/div[2]/div/div/div[2]/div[3]/div/' \
+                               'div/div/div[1]/form/div[2]/button'
+        sms_confirm_input = '//*[@id="passp-field-phoneCode"]'
+
+        a_input = '//*[@id="application"]/div[1]/div[2]/div[1]/div[4]/div/div[1]/div/div[1]' \
+                  '/div/div[1]/div[1]/div[2]/span[1]/span[2]/textarea'
+
+        b_input = '//*[@id="application"]/div[1]/div[2]/div[1]/div[4]/div/div[1]/div/div[1]' \
+                  '/div/div[1]/div[2]/div[2]/span[1]/span[2]/textarea'
+
+        tariff_base = '//*[@id="application"]/div[1]/div[2]/div[1]/div[4]/div/div[1]/div/div[2]/div/div/div'
+        first_tariff_price_paths = [
+            tariff_base + '/button[1]/span[2]/span[3]/span[3]',
+            tariff_base + '/button[1]/span[2]/span[3]/span[2]',
+            tariff_base + '/button[1]/span[2]/span[3]/span[1]',
+        ]

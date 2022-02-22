@@ -1,0 +1,7 @@
+selenium~=4.1.0
+webdriver-manager~=3.5.2
+loguru~=0.5.3
+notifiers~=1.2.1
+xvfbwrapper~=0.2.9
+schedule~=1.1.0
+pyvirtualdisplay~=3.0

@@ -1,0 +1,11 @@
+version: '3'
+services:
+  parser:
+    build: .
+    image: parser:latest
+    restart: always
+    container_name: taxi-parser
+    volumes:
+      - type: bind
+        source: ./var
+        target: /opt/app/var
