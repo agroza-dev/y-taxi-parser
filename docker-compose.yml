@@ -2,8 +2,9 @@ version: '3'
 services:
   parser:
     build: .
-    image: parser:latest
+    image: parser_3:latest
     container_name: taxi-parser
+    restart: always
     privileged: true
     volumes:
       - type: bind

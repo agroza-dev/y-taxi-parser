@@ -31,6 +31,7 @@ class DriverManager:
             self.display.start()
         chrome_options = Options()
         chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument('--start-maximized' if self.conf.debug_mode else '--headless')
         chrome_options.add_argument(f'window-size={self.conf.Display.width}x{self.conf.Display.height}')
         chrome_options.add_experimental_option('useAutomationExtension', False)
